@@ -25,3 +25,5 @@ export {
   parseMoney,
 } from "./format.js";
 export type { MoneyFormatOptions } from "./format.js";
+
+export { tokens, tonePalette, THEME_ATTR } from "./theme.js";

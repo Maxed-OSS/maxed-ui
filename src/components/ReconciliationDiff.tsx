@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { formatMoney } from "../format.js";
+import { tokens } from "../theme.js";
 import { StatusPill, type StatusTone } from "./StatusPill.js";
 
 /**
@@ -57,15 +58,16 @@ const STATUS_META: Record<
 
 const ROW_BG: Record<ReconRow["status"], string> = {
   matched: "transparent",
-  mismatched: "#fff9db",
-  onlyLeft: "#fff5f5",
-  onlyRight: "#e7f5ff",
+  mismatched: tokens.reconMismatchBg,
+  onlyLeft: tokens.reconOnlyLeftBg,
+  onlyRight: tokens.reconOnlyRightBg,
 };
 
 const cell: CSSProperties = {
   padding: "8px 12px",
-  borderBottom: "1px solid #f1f3f5",
+  borderBottom: `1px solid ${tokens.border}`,
   fontSize: 14,
+  color: tokens.text,
   verticalAlign: "top",
 };
 
@@ -83,16 +85,16 @@ const headCell: CSSProperties = {
   fontWeight: 700,
   textTransform: "uppercase",
   letterSpacing: 0.4,
-  color: "#868e96",
-  borderBottom: "2px solid #e9ecef",
+  color: tokens.textMuted,
+  borderBottom: `2px solid ${tokens.borderStrong}`,
 };
 
 function side(line: ReconLine | undefined, currency: string, locale?: string) {
   if (!line) {
     return (
       <>
-        <td style={{ ...cell, color: "#ced4da" }}>—</td>
-        <td style={{ ...numCell, color: "#ced4da" }}>—</td>
+        <td style={{ ...cell, color: tokens.textFaint }}>—</td>
+        <td style={{ ...numCell, color: tokens.textFaint }}>—</td>
       </>
     );
   }
@@ -100,7 +102,7 @@ function side(line: ReconLine | undefined, currency: string, locale?: string) {
     <>
       <td style={cell}>
         <div>{line.description}</div>
-        <div style={{ fontSize: 12, color: "#868e96" }}>{line.date}</div>
+        <div style={{ fontSize: 12, color: tokens.textMuted }}>{line.date}</div>
       </td>
       <td style={numCell}>
         {formatMoney(line.amount, { currency, locale, accountingNegative: true })}
@@ -162,7 +164,7 @@ export function ReconciliationDiff({
         style={{
           width: "100%",
           borderCollapse: "collapse",
-          background: "#fff",
+          background: tokens.surface,
         }}
       >
         <thead>
@@ -181,7 +183,7 @@ export function ReconciliationDiff({
             <tr>
               <td
                 colSpan={5}
-                style={{ ...cell, textAlign: "center", color: "#868e96" }}
+                style={{ ...cell, textAlign: "center", color: tokens.textMuted }}
               >
                 {emptyMessage}
               </td>

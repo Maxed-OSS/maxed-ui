@@ -1,0 +1,142 @@
+/*
+ * maxed-ui — optional theme stylesheet.
+ *
+ * The components render fine WITHOUT this file: every token has a baked-in
+ * light-mode fallback. Import this file only when you want themeable colors or
+ * dark mode:
+ *
+ *   import "maxed-ui/styles.css";
+ *
+ * Dark mode is applied either automatically (via prefers-color-scheme) or
+ * explicitly by setting data-mx-theme="dark" on any ancestor element. The
+ * explicit attribute always wins, so you can force a theme regardless of the
+ * OS setting:
+ *
+ *   <div data-mx-theme="dark"> ... </div>   // force dark
+ *   <div data-mx-theme="light"> ... </div>  // force light
+ *
+ * All custom properties are namespaced with --mx- to avoid collisions.
+ */
+
+:root,
+[data-mx-theme="light"] {
+  --mx-surface: #ffffff;
+  --mx-surface-muted: #f8f9fa;
+
+  --mx-border: #f1f3f5;
+  --mx-border-strong: #e9ecef;
+  --mx-border-input: #ced4da;
+
+  --mx-text: #212529;
+  --mx-text-muted: #868e96;
+  --mx-text-subtle: #495057;
+  --mx-text-faint: #ced4da;
+
+  --mx-tone-neutral-bg: #f1f3f5;
+  --mx-tone-neutral-fg: #495057;
+  --mx-tone-neutral-dot: #868e96;
+
+  --mx-tone-info-bg: #e7f5ff;
+  --mx-tone-info-fg: #1971c2;
+  --mx-tone-info-dot: #1971c2;
+
+  --mx-tone-success-bg: #ebfbee;
+  --mx-tone-success-fg: #2b8a3e;
+  --mx-tone-success-dot: #2f9e44;
+
+  --mx-tone-warning-bg: #fff9db;
+  --mx-tone-warning-fg: #e67700;
+  --mx-tone-warning-dot: #f08c00;
+
+  --mx-tone-danger-bg: #fff5f5;
+  --mx-tone-danger-fg: #c92a2a;
+  --mx-tone-danger-dot: #e03131;
+
+  --mx-recon-mismatch-bg: #fff9db;
+  --mx-recon-only-left-bg: #fff5f5;
+  --mx-recon-only-right-bg: #e7f5ff;
+}
+
+/* Dark palette, shared by the explicit attribute and the media-query path. */
+[data-mx-theme="dark"] {
+  --mx-surface: #1a1b1e;
+  --mx-surface-muted: #25262b;
+
+  --mx-border: #2c2e33;
+  --mx-border-strong: #373a40;
+  --mx-border-input: #495057;
+
+  --mx-text: #e9ecef;
+  --mx-text-muted: #909296;
+  --mx-text-subtle: #c1c2c5;
+  --mx-text-faint: #5c5f66;
+
+  --mx-tone-neutral-bg: #2c2e33;
+  --mx-tone-neutral-fg: #c1c2c5;
+  --mx-tone-neutral-dot: #909296;
+
+  --mx-tone-info-bg: #1c2a3a;
+  --mx-tone-info-fg: #74c0fc;
+  --mx-tone-info-dot: #4dabf7;
+
+  --mx-tone-success-bg: #1a2e1f;
+  --mx-tone-success-fg: #8ce99a;
+  --mx-tone-success-dot: #69db7c;
+
+  --mx-tone-warning-bg: #332b14;
+  --mx-tone-warning-fg: #ffd43b;
+  --mx-tone-warning-dot: #fab005;
+
+  --mx-tone-danger-bg: #34201f;
+  --mx-tone-danger-fg: #ff8787;
+  --mx-tone-danger-dot: #ff6b6b;
+
+  --mx-recon-mismatch-bg: #2b2510;
+  --mx-recon-only-left-bg: #2b1a1a;
+  --mx-recon-only-right-bg: #16263a;
+}
+
+/*
+ * Auto dark mode: apply the dark palette when the OS asks for it, UNLESS an
+ * explicit light theme is set on an ancestor. The :not() guard lets an
+ * explicit data-mx-theme="light" override the OS preference.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mx-theme="light"]) {
+    --mx-surface: #1a1b1e;
+    --mx-surface-muted: #25262b;
+
+    --mx-border: #2c2e33;
+    --mx-border-strong: #373a40;
+    --mx-border-input: #495057;
+
+    --mx-text: #e9ecef;
+    --mx-text-muted: #909296;
+    --mx-text-subtle: #c1c2c5;
+    --mx-text-faint: #5c5f66;
+
+    --mx-tone-neutral-bg: #2c2e33;
+    --mx-tone-neutral-fg: #c1c2c5;
+    --mx-tone-neutral-dot: #909296;
+
+    --mx-tone-info-bg: #1c2a3a;
+    --mx-tone-info-fg: #74c0fc;
+    --mx-tone-info-dot: #4dabf7;
+
+    --mx-tone-success-bg: #1a2e1f;
+    --mx-tone-success-fg: #8ce99a;
+    --mx-tone-success-dot: #69db7c;
+
+    --mx-tone-warning-bg: #332b14;
+    --mx-tone-warning-fg: #ffd43b;
+    --mx-tone-warning-dot: #fab005;
+
+    --mx-tone-danger-bg: #34201f;
+    --mx-tone-danger-fg: #ff8787;
+    --mx-tone-danger-dot: #ff6b6b;
+
+    --mx-recon-mismatch-bg: #2b2510;
+    --mx-recon-only-left-bg: #2b1a1a;
+    --mx-recon-only-right-bg: #16263a;
+  }
+}

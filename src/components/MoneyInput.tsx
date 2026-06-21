@@ -6,6 +6,7 @@ import {
   type CSSProperties,
 } from "react";
 import { formatMoney, parseMoney } from "../format.js";
+import { tokens } from "../theme.js";
 
 export interface MoneyInputProps {
   /** Controlled numeric value (in major units, e.g. dollars). `null` = empty. */
@@ -104,7 +105,9 @@ export function MoneyInput({
       style={{
         padding: "8px 12px",
         borderRadius: 8,
-        border: "1px solid #ced4da",
+        border: `1px solid ${tokens.borderInput}`,
+        background: tokens.surface,
+        color: tokens.text,
         fontSize: 14,
         textAlign: "right",
         fontVariantNumeric: "tabular-nums",

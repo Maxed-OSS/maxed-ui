@@ -9,6 +9,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { tokens } from "../theme.js";
 
 /**
  * Props for a single option. Rendered declaratively as a child of <Select>.
@@ -151,8 +152,9 @@ export function Select({
         appearance: "none",
         padding: "8px 12px",
         borderRadius: 8,
-        border: "1px solid #ced4da",
-        background: "#fff",
+        border: `1px solid ${tokens.borderInput}`,
+        background: tokens.surface,
+        color: tokens.text,
         fontSize: 14,
         minWidth: 180,
         ...style,

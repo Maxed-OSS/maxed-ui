@@ -1,11 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
+import { tonePalette, type StatusTone } from "../theme.js";
 
-export type StatusTone =
-  | "neutral"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger";
+export type { StatusTone };
 
 export interface StatusPillProps {
   /** Visual tone of the pill. */
@@ -20,14 +16,6 @@ export interface StatusPillProps {
   style?: CSSProperties;
 }
 
-const TONES: Record<StatusTone, { bg: string; fg: string; dot: string }> = {
-  neutral: { bg: "#f1f3f5", fg: "#495057", dot: "#868e96" },
-  info: { bg: "#e7f5ff", fg: "#1971c2", dot: "#1971c2" },
-  success: { bg: "#ebfbee", fg: "#2b8a3e", dot: "#2f9e44" },
-  warning: { bg: "#fff9db", fg: "#e67700", dot: "#f08c00" },
-  danger: { bg: "#fff5f5", fg: "#c92a2a", dot: "#e03131" },
-};
-
 /**
  * A compact, color-coded status label — for ledger row states, reconciliation
  * status, engagement stages, etc. Presentation only; the caller decides which
@@ -41,7 +29,7 @@ export function StatusPill({
   className,
   style,
 }: StatusPillProps) {
-  const palette = TONES[tone];
+  const palette = tonePalette(tone);
   return (
     <span
       className={className}

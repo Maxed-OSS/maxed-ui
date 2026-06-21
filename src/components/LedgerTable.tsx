@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { formatMoney } from "../format.js";
+import { tokens } from "../theme.js";
 
 /** A single ledger / register row. Presentation shape only. */
 export interface LedgerEntry {
@@ -40,8 +41,9 @@ export interface LedgerTableProps {
 
 const cell: CSSProperties = {
   padding: "8px 12px",
-  borderBottom: "1px solid #f1f3f5",
+  borderBottom: `1px solid ${tokens.border}`,
   fontSize: 14,
+  color: tokens.text,
   verticalAlign: "top",
 };
 
@@ -59,8 +61,8 @@ const headCell: CSSProperties = {
   fontWeight: 700,
   textTransform: "uppercase",
   letterSpacing: 0.4,
-  color: "#868e96",
-  borderBottom: "2px solid #e9ecef",
+  color: tokens.textMuted,
+  borderBottom: `2px solid ${tokens.borderStrong}`,
 };
 
 function amount(
@@ -104,7 +106,7 @@ export function LedgerTable({
       style={{
         width: "100%",
         borderCollapse: "collapse",
-        background: "#fff",
+        background: tokens.surface,
         ...style,
       }}
     >
@@ -114,7 +116,7 @@ export function LedgerTable({
             textAlign: "left",
             padding: "0 0 8px",
             fontSize: 13,
-            color: "#868e96",
+            color: tokens.textMuted,
           }}
         >
           {caption}
@@ -139,7 +141,7 @@ export function LedgerTable({
           <tr>
             <td
               colSpan={hasStatus ? 8 : 7}
-              style={{ ...cell, textAlign: "center", color: "#868e96" }}
+              style={{ ...cell, textAlign: "center", color: tokens.textMuted }}
             >
               {emptyMessage}
             </td>
@@ -155,11 +157,11 @@ export function LedgerTable({
                 style={{ cursor: clickable ? "pointer" : "default" }}
               >
                 <td style={{ ...cell, whiteSpace: "nowrap" }}>{entry.date}</td>
-                <td style={{ ...cell, color: "#868e96" }}>
+                <td style={{ ...cell, color: tokens.textMuted }}>
                   {entry.reference ?? ""}
                 </td>
                 <td style={cell}>{entry.description}</td>
-                <td style={{ ...cell, color: "#495057" }}>
+                <td style={{ ...cell, color: tokens.textSubtle }}>
                   {entry.account ?? ""}
                 </td>
                 {hasStatus && <td style={cell}>{entry.status}</td>}
@@ -185,7 +187,7 @@ export function LedgerTable({
         <tfoot>
           <tr>
             <td
-              style={{ ...cell, fontWeight: 700, borderTop: "2px solid #e9ecef" }}
+              style={{ ...cell, fontWeight: 700, borderTop: `2px solid ${tokens.borderStrong}` }}
               colSpan={hasStatus ? 5 : 4}
             >
               Totals
@@ -194,7 +196,7 @@ export function LedgerTable({
               style={{
                 ...numCell,
                 fontWeight: 700,
-                borderTop: "2px solid #e9ecef",
+                borderTop: `2px solid ${tokens.borderStrong}`,
               }}
             >
               {formatMoney(totalDebit, { currency, locale })}
@@ -203,7 +205,7 @@ export function LedgerTable({
               style={{
                 ...numCell,
                 fontWeight: 700,
-                borderTop: "2px solid #e9ecef",
+                borderTop: `2px solid ${tokens.borderStrong}`,
               }}
             >
               {formatMoney(totalCredit, { currency, locale })}
@@ -213,7 +215,7 @@ export function LedgerTable({
                 style={{
                   ...numCell,
                   fontWeight: 700,
-                  borderTop: "2px solid #e9ecef",
+                  borderTop: `2px solid ${tokens.borderStrong}`,
                 }}
               >
                 {formatMoney(running, {

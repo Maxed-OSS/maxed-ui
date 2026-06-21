@@ -1,8 +1,19 @@
 {
-  "name": "maxed-ui",
+  "name": "@maxed-oss/maxed-ui",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "A lightweight TypeScript + React component kit for building accounting and bookkeeping UIs.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxed-oss/maxed-ui.git"
+  },
+  "homepage": "https://github.com/maxed-oss/maxed-ui#readme",
+  "bugs": {
+    "url": "https://github.com/maxed-oss/maxed-ui/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,12 +22,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css"
   },
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",

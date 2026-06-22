@@ -8,10 +8,8 @@ bookkeeping UIs. It ships the fiddly, presentation-heavy pieces that every
 ledger, reconciliation, or billing screen needs and that are tedious to get
 right from scratch.
 
-These are **presentation-only** components: they render the data you pass in.
-There is no business logic, no double-entry validation, no rounding policy, and
-no network or storage. You own your data and your accounting rules; this kit
-just makes them look right on screen.
+These components render the data you pass in with consistent layout, formatting,
+and interaction patterns for accounting screens.
 
 ## Why
 
@@ -27,6 +25,12 @@ Accounting UIs have a recurring set of small, easy-to-botch widgets:
 - A **Select** whose trigger shows the selected option's *label*, not its raw
   value -- derived automatically from declarative children, so a parallel
   `items` array can never drift out of sync with the options you rendered.
+- A **stage stepper** for ordered workflows (engagement progress, a monthly
+  close, a tax-prep stage model) with done / current / upcoming states.
+- A **fiscal-period picker** that scopes a report or filing to a month,
+  quarter, or year and round-trips to a stable token and a readable label.
+- A **summary card** of labeled figures for report headers and dashboard tiles,
+  with currency formatting and tone-coded values built in.
 
 That last one is a genuine, real-world pain point with primitive select
 components (Base UI / Radix style): the trigger only knows the raw `value`, so
@@ -68,14 +72,19 @@ Everything is exported from the package root. CSS is a separate, optional entry.
 | `StatusPill`            | component | Compact, tone-coded status label                               |
 | `Select`                | component | Select that auto-derives its label map from children          |
 | `SelectItem`            | component | Declarative option child of `Select`                          |
+| `StageStepper`          | component | Ordered workflow stepper (done / current / upcoming)          |
+| `PeriodPicker`          | component | Fiscal-period selector (month / quarter / year)              |
+| `SummaryCard`           | component | Card of labeled figures for headers and dashboard tiles       |
 | `deriveItems`           | helper    | Build the `value -> label` item list from `SelectItem` children |
 | `formatMoney`           | helper    | Format an amount as a currency string                          |
 | `formatNumber`          | helper    | Format a plain number (no currency symbol)                     |
 | `parseMoney`            | helper    | Parse user-typed money (symbols, grouping, accounting parens)  |
+| `formatPeriod`          | helper    | Render a `Period` as a stable, sortable token (e.g. `2026-Q2`) |
+| `formatPeriodLabel`     | helper    | Render a `Period` as a readable label (e.g. `Q2 2026`)        |
 | `tokens`                | object    | The `--mx-*` design tokens consumed by every component         |
 | `tonePalette`           | helper    | Resolve the `{bg, fg, dot}` token triple for a status tone     |
 | `THEME_ATTR`            | const     | The theme attribute name (`"data-mx-theme"`)                   |
-| `LedgerEntry`, `LedgerTableProps`, `MoneyInputProps`, `ReconLine`, `ReconRow`, `ReconciliationDiffProps`, `StatusPillProps`, `StatusTone`, `SelectProps`, `SelectItemProps`, `MoneyFormatOptions` | types | Public TypeScript types |
+| `LedgerEntry`, `LedgerTableProps`, `MoneyInputProps`, `ReconLine`, `ReconRow`, `ReconciliationDiffProps`, `StatusPillProps`, `StatusTone`, `SelectProps`, `SelectItemProps`, `MoneyFormatOptions`, `Step`, `StepState`, `StageStepperProps`, `Period`, `PeriodGranularity`, `PeriodPickerProps`, `SummaryItem`, `SummaryCardProps` | types | Public TypeScript types |
 
 ## Theming & dark mode
 
@@ -197,6 +206,61 @@ const rows = [
 ```
 
 The caller computes which lines match; `ReconciliationDiff` renders the result.
+
+### Stage stepper
+
+```tsx
+import { StageStepper } from "@maxed-oss/maxed-ui";
+
+const steps = [
+  { id: "gathering", label: "Gathering", description: "Collect documents" },
+  { id: "in-prep", label: "In prep" },
+  { id: "review", label: "Review" },
+  { id: "filed", label: "Filed" },
+];
+
+<StageStepper steps={steps} activeIndex={2} aria-label="Tax prep stage" />;
+// Steps before the active index render as done, the active one as current,
+// and the rest as upcoming. Pass onStepClick to make the steps navigable.
+```
+
+### Fiscal-period picker
+
+```tsx
+import {
+  PeriodPicker,
+  formatPeriod,
+  formatPeriodLabel,
+} from "@maxed-oss/maxed-ui";
+
+const [period, setPeriod] = useState({ granularity: "month", year: 2026, month: 6 });
+
+<PeriodPicker
+  value={period}
+  onChange={setPeriod}
+  granularities={["month", "quarter", "year"]}
+/>;
+
+formatPeriod(period);      // "2026-M06"  (stable, sortable token)
+formatPeriodLabel(period); // "Jun 2026"  (readable label)
+```
+
+### Summary card
+
+```tsx
+import { SummaryCard } from "@maxed-oss/maxed-ui";
+
+<SummaryCard
+  title="Receivables"
+  items={[
+    { id: "ar", label: "Outstanding", amount: 42850 },
+    { id: "overdue", label: "Overdue", amount: -7600, tone: "danger", hint: "5 invoices" },
+    { id: "open", label: "Open invoices", value: "18" },
+  ]}
+/>;
+// Numeric `amount`s format as currency (negatives in accounting style);
+// pass a pre-rendered `value` for anything that is not a plain amount.
+```
 
 ## Development
 

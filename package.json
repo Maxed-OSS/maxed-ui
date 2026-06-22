@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "A lightweight TypeScript + React component kit for building accounting and bookkeeping UIs.",
+  "description": "TypeScript and React components for accounting interfaces: ledger tables, money inputs, reconciliation views, status pills, selects, workflow steppers, fiscal-period pickers, and summary cards.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

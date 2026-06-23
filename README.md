@@ -31,6 +31,13 @@ Accounting UIs have a recurring set of small, easy-to-botch widgets:
   quarter, or year and round-trips to a stable token and a readable label.
 - A **summary card** of labeled figures for report headers and dashboard tiles,
   with currency formatting and tone-coded values built in.
+- A **progress meter** for counted work (a close checklist, a request list, an
+  engagement's tasks) that renders an accessible bar with a fraction or percent
+  caption and auto-grades its color as completion rises.
+- A **delta badge** for a period-over-period change (a revenue swing, a budget
+  variance, a count of new open items) that shows a direction arrow and the
+  change as an amount, a percent, or both, and tone-codes itself by whether the
+  movement is favorable, which you declare per metric.
 
 That last one is a genuine, real-world pain point with primitive select
 components (Base UI / Radix style): the trigger only knows the raw `value`, so
@@ -75,6 +82,8 @@ Everything is exported from the package root. CSS is a separate, optional entry.
 | `StageStepper`          | component | Ordered workflow stepper (done / current / upcoming)          |
 | `PeriodPicker`          | component | Fiscal-period selector (month / quarter / year)              |
 | `SummaryCard`           | component | Card of labeled figures for headers and dashboard tiles       |
+| `ProgressMeter`         | component | Completion bar for counted work (fraction / percent caption)   |
+| `DeltaBadge`            | component | Tone-coded period-over-period change (arrow + amount / percent) |
 | `deriveItems`           | helper    | Build the `value -> label` item list from `SelectItem` children |
 | `formatMoney`           | helper    | Format an amount as a currency string                          |
 | `formatNumber`          | helper    | Format a plain number (no currency symbol)                     |
@@ -84,7 +93,7 @@ Everything is exported from the package root. CSS is a separate, optional entry.
 | `tokens`                | object    | The `--mx-*` design tokens consumed by every component         |
 | `tonePalette`           | helper    | Resolve the `{bg, fg, dot}` token triple for a status tone     |
 | `THEME_ATTR`            | const     | The theme attribute name (`"data-mx-theme"`)                   |
-| `LedgerEntry`, `LedgerTableProps`, `MoneyInputProps`, `ReconLine`, `ReconRow`, `ReconciliationDiffProps`, `StatusPillProps`, `StatusTone`, `SelectProps`, `SelectItemProps`, `MoneyFormatOptions`, `Step`, `StepState`, `StageStepperProps`, `Period`, `PeriodGranularity`, `PeriodPickerProps`, `SummaryItem`, `SummaryCardProps` | types | Public TypeScript types |
+| `LedgerEntry`, `LedgerTableProps`, `MoneyInputProps`, `ReconLine`, `ReconRow`, `ReconciliationDiffProps`, `StatusPillProps`, `StatusTone`, `SelectProps`, `SelectItemProps`, `MoneyFormatOptions`, `Step`, `StepState`, `StageStepperProps`, `Period`, `PeriodGranularity`, `PeriodPickerProps`, `SummaryItem`, `SummaryCardProps`, `ProgressMeterProps`, `DeltaBadgeProps`, `DeltaPolarity` | types | Public TypeScript types |
 
 ## Theming & dark mode
 
@@ -261,6 +270,40 @@ import { SummaryCard } from "@maxed-oss/maxed-ui";
 // Numeric `amount`s format as currency (negatives in accounting style);
 // pass a pre-rendered `value` for anything that is not a plain amount.
 ```
+
+### Progress meter
+
+```tsx
+import { ProgressMeter } from "@maxed-oss/maxed-ui";
+
+<ProgressMeter label="Close checklist" value={7} total={12} />;
+// Renders "7 / 12" and a bar at 58%. The bar color auto-grades with completion;
+// pass caption="percent" for "58%", or tone="info" to pin a fixed color.
+```
+
+The bar is an accessible `role="progressbar"` with `aria-valuenow` / `valuemax`
+/ `valuetext`, and it clamps gracefully (an over-full value caps at 100%, a zero
+total reports 0%).
+
+### Delta badge
+
+```tsx
+import { DeltaBadge } from "@maxed-oss/maxed-ui";
+
+// Revenue up 5.4% reads as a success-toned "↑ +5.4%".
+<DeltaBadge percent={0.054} caption="vs last month" />;
+
+// For metrics where a drop is the good outcome, declare the polarity so a
+// decrease reads as success instead of danger.
+<DeltaBadge value={-1200} asMoney polarity="decrease-good" caption="spend" />;
+
+// Show both an absolute amount and a percent at once.
+<DeltaBadge value={200} percent={0.1} asMoney />;
+```
+
+The badge derives direction (up / down / flat) and tone from the figures you
+pass; `polarity` tells it which direction is favorable for that metric (or
+`"neutral"` to color nothing by direction). Zero renders a neutral, flat badge.
 
 ## Development
 

@@ -17,7 +17,7 @@ export interface StatusPillProps {
 }
 
 /**
- * A compact, color-coded status label — for ledger row states, reconciliation
+ * A compact, color-coded status label for ledger row states, reconciliation
  * status, engagement stages, etc. Presentation only; the caller decides which
  * tone maps to which domain meaning.
  */

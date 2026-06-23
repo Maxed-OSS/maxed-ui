@@ -36,6 +36,12 @@ export type {
 export { SummaryCard } from "./components/SummaryCard.js";
 export type { SummaryCardProps, SummaryItem } from "./components/SummaryCard.js";
 
+export { ProgressMeter } from "./components/ProgressMeter.js";
+export type { ProgressMeterProps } from "./components/ProgressMeter.js";
+
+export { DeltaBadge } from "./components/DeltaBadge.js";
+export type { DeltaBadgeProps, DeltaPolarity } from "./components/DeltaBadge.js";
+
 export {
   formatMoney,
   formatNumber,

@@ -22,7 +22,7 @@ export const RateTier: Story = {
           <SelectItem value="friends">Friends &amp; Family</SelectItem>
         </Select>
         <small>
-          Selected value: <code>{value}</code> — the trigger shows the label,
+          Selected value: <code>{value}</code>. The trigger shows the label,
           derived from the children.
         </small>
       </div>

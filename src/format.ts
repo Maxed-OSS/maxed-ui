@@ -2,7 +2,7 @@
  * Presentation-only formatting helpers.
  *
  * These deal purely with how numbers and money are *displayed*. They contain
- * no rounding rules, tax logic, or accounting policy — just locale formatting.
+ * no rounding rules, tax logic, or accounting policy, just locale formatting.
  */
 
 export interface MoneyFormatOptions {

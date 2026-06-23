@@ -93,8 +93,8 @@ function side(line: ReconLine | undefined, currency: string, locale?: string) {
   if (!line) {
     return (
       <>
-        <td style={{ ...cell, color: tokens.textFaint }}>—</td>
-        <td style={{ ...numCell, color: tokens.textFaint }}>—</td>
+        <td style={{ ...cell, color: tokens.textFaint }} aria-label="No entry">-</td>
+        <td style={{ ...numCell, color: tokens.textFaint }} aria-label="No entry">-</td>
       </>
     );
   }
@@ -115,7 +115,7 @@ function side(line: ReconLine | undefined, currency: string, locale?: string) {
  * A side-by-side reconciliation diff viewer: left column is the books, right
  * is the bank/statement, each row tagged matched / mismatch / one-sided.
  *
- * Presentation only — it renders pre-computed reconciliation rows and never
+ * Presentation only: it renders pre-computed reconciliation rows and never
  * decides what matches what.
  */
 export function ReconciliationDiff({

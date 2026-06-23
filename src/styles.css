@@ -1,5 +1,5 @@
 /*
- * maxed-ui — optional theme stylesheet.
+ * maxed-ui optional theme stylesheet.
  *
  * The components render fine WITHOUT this file: every token has a baked-in
  * light-mode fallback. Import this file only when you want themeable colors or

@@ -5,7 +5,7 @@
  * property (a `var(--mx-*)` reference) with a hard-coded fallback baked in.
  * That means:
  *
- * - You can drop the components in with **zero setup** — the fallbacks render
+ * - You can drop the components in with **zero setup**: the fallbacks render
  *   the default light theme without any stylesheet.
  * - You can opt into theming (including dark mode) by importing the optional
  *   stylesheet (`maxed-ui/styles.css`) or by defining the `--mx-*` variables
@@ -39,7 +39,7 @@ export const tokens = {
   textSubtle: token("--mx-text-subtle", "#495057"),
   textFaint: token("--mx-text-faint", "#ced4da"),
 
-  /** Tone palettes — background, foreground, and dot/accent per status tone. */
+  /** Tone palettes: background, foreground, and dot/accent per status tone. */
   toneNeutralBg: token("--mx-tone-neutral-bg", "#f1f3f5"),
   toneNeutralFg: token("--mx-tone-neutral-fg", "#495057"),
   toneNeutralDot: token("--mx-tone-neutral-dot", "#868e96"),

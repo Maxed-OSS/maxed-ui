@@ -48,9 +48,9 @@ describe("<ReconciliationDiff>", () => {
 
   it("renders a placeholder for the missing side of a one-sided row", () => {
     render(<ReconciliationDiff rows={[rows[2]]} showSummary={false} />);
-    // onlyLeft: left description present, right side rendered as em-dash placeholders.
+    // onlyLeft: left description present, right side rendered as nil placeholders.
     expect(screen.getByText("Software")).toBeInTheDocument();
-    expect(screen.getAllByText("—").length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByLabelText("No entry").length).toBeGreaterThanOrEqual(2);
   });
 
   it("formats negative amounts in accounting style", () => {

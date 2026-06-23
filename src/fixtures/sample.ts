@@ -12,7 +12,7 @@ export const sampleLedger: LedgerEntry[] = [
     id: "l1",
     date: "2024-03-01",
     reference: "INV-1001",
-    description: "Consulting revenue — Acme Widgets Co.",
+    description: "Consulting revenue, Acme Widgets Co.",
     account: "Sales",
     credit: 4200,
   },
@@ -36,7 +36,7 @@ export const sampleLedger: LedgerEntry[] = [
     id: "l4",
     date: "2024-03-12",
     reference: "INV-1002",
-    description: "Retainer — Northwind Traders",
+    description: "Retainer, Northwind Traders",
     account: "Sales",
     credit: 3000,
   },
@@ -54,7 +54,7 @@ export const sampleReconciliation: ReconRow[] = [
   {
     id: "r1",
     status: "matched",
-    left: { id: "b1", date: "2024-03-01", description: "Deposit — INV-1001", amount: 4200 },
+    left: { id: "b1", date: "2024-03-01", description: "Deposit INV-1001", amount: 4200 },
     right: { id: "s1", date: "2024-03-01", description: "ACH credit", amount: 4200 },
   },
   {

@@ -30,8 +30,8 @@ export interface SelectItemProps {
 }
 
 /**
- * Marker component. It is never rendered directly by the DOM here — `Select`
- * reads its props to build both the native <option> list and the value→label
+ * Marker component. It is never rendered directly by the DOM here; `Select`
+ * reads its props to build both the native <option> list and the value-to-label
  * map used to display the current selection. Keeping it as a component (rather
  * than a config array) lets callers compose options naturally in JSX.
  */

@@ -78,8 +78,8 @@ function amount(
  * A ledger / register data table for accounting UIs. Renders dated rows with
  * debit/credit columns, an optional running balance, and column totals.
  *
- * Presentation only: it does no double-entry validation and stores nothing —
- * it just lays out the rows you give it.
+ * Presentation only: it does no double-entry validation and stores nothing.
+ * It just lays out the rows you give it.
  */
 export function LedgerTable({
   entries,

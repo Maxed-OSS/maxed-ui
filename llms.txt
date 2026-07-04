@@ -1,0 +1,34 @@
+# maxed-ui
+
+> Lightweight TypeScript + React component kit for accounting and bookkeeping
+> screens: a ledger/register table with aligned debit/credit columns and running
+> balance, a forgiving money input, a reconciliation diff, status pills, a
+> label-aware Select, a stage stepper, a fiscal-period picker, summary cards, a
+> progress meter, and a delta badge. Presentation-only; no business logic, no
+> network.
+
+Install: `npm install @maxed-oss/maxed-ui` (peer deps: react, react-dom; React 18+).
+
+## Imports
+
+- `@maxed-oss/maxed-ui` : all components, helpers, types, theme tokens.
+- `@maxed-oss/maxed-ui/styles.css` : optional theme stylesheet (tokens + dark mode).
+
+## Components
+
+- LedgerTable(entries: LedgerEntry[]) : debit/credit columns, running balance, totals.
+- MoneyInput : formatted at rest, forgiving parse (symbols, grouping, parens).
+- ReconciliationDiff : books-vs-bank rows flagged match/mismatch/one-sided.
+- StatusPill(tone: StatusTone) ; Select/SelectItem (label map auto-derived from children).
+- StageStepper(steps: Step[]) ; PeriodPicker (month/quarter/year Period).
+- SummaryCard(items: SummaryItem[]) ; ProgressMeter ; DeltaBadge(polarity: DeltaPolarity).
+
+## Helpers
+
+- formatMoney, formatNumber, parseMoney, formatPeriod ("2026-Q2"), formatPeriodLabel ("Q2 2026"), deriveItems, tonePalette, tokens, THEME_ATTR ("data-mx-theme").
+
+## Agent notes
+
+- Typed API; `tsc` verifies generated usage. Dark mode: data-mx-theme attr or prefers-color-scheme.
+- Backs no maxed-mcp tool; this is the render layer for the suite's JSON output.
+- Test/build: npm test (vitest), npm run build. See AGENT.md for usage facts.

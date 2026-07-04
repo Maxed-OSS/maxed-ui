@@ -1,0 +1,55 @@
+name: guard
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Moat-term denylist
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Case-insensitive. Block the SECRET PHRASES, not common words.
+          # Deliberately NOT bare 'ledger' (every accounting repo says ledger),
+          # NOT bare 'patent' (the Apache-2.0 LICENSE has a patent-grant clause),
+          # NOT bare 'spark' (Apache Spark / the word). The moat is fully covered
+          # by the specific multi-word phrases + the unambiguous project names.
+          DENY='distillation|distill|teacher[ _-]?model|student[ _-]?model|\blora\b|inference[_-]?traces?|de[_-]?identif|\bde[_-]?id\b|parallel[_-]?write|parallel[_-]?ledger|shadow[_-]?ledger|owned[_-]?ledger|second[_-]?ledger|data[_-]?moat|\bmoat\b|signalstore|\bqwen\b|\bdgx\b|patent[ _-]?pending|patent[ _-]?core|patentable'
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            RANGE="origin/${{ github.base_ref }}...HEAD"
+            echo "Scanning PR diff range: $RANGE"
+            HITS=$(git diff "$RANGE" | grep -nEi "^\+" | grep -Ei "$DENY" || true)
+          else
+            echo "Scanning full tree on push"
+            HITS=$(grep -rEinI "$DENY" . --exclude-dir=.git --exclude=guard.yml --exclude='LICENSE*' --exclude='NOTICE*' --exclude='COPYING*' || true)
+          fi
+
+          if [ -n "$HITS" ]; then
+            echo "::error::Denylisted moat/private term detected. Failing."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Moat denylist clean."
+
+      - name: Secret-pattern scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Obvious private-key / token shapes. Tune as needed.
+          SECRETS='BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY|AKIA[0-9A-Z]{16}|xox[baprs]-[0-9A-Za-z-]+|gh[pousr]_[0-9A-Za-z]{36,}|-----BEGIN PRIVATE KEY-----|sk-[A-Za-z0-9]{20,}'
+          HITS=$(grep -rEnI "$SECRETS" . --exclude-dir=.git --exclude=guard.yml || true)
+          if [ -n "$HITS" ]; then
+            echo "::error::Possible secret detected. Failing."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Secret scan clean."
